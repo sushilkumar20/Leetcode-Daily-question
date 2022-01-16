@@ -5,10 +5,10 @@ public:
         vector<vector<string>> ans;
         
         map<vector<int>,vector<string>> mp;
-        
+        vector<int> arr(26,0);
         for(int i=0;i<strs.size();i++)
         {
-           vector<int> arr(26,0);
+           fill(arr.begin(),arr.end(),0);
             
             for(int j=0;j<strs[i].size();j++)
             {
@@ -18,6 +18,7 @@ public:
             
             
             mp[arr].push_back(strs[i]);
+            
         }
         
         for(auto i:mp)
