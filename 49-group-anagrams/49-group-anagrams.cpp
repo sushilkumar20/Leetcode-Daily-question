@@ -4,15 +4,20 @@ public:
         
         vector<vector<string>> ans;
         
-        map<string,vector<string>> mp;
+        map<vector<int>,vector<string>> mp;
         
         for(int i=0;i<strs.size();i++)
         {
-            string k=strs[i];
+           vector<int> arr(26,0);
             
-            sort(k.begin(),k.end());
+            for(int j=0;j<strs[i].size();j++)
+            {
+                arr[strs[i][j]-'a']++;
+            }
             
-            mp[k].push_back(strs[i]);
+            
+            
+            mp[arr].push_back(strs[i]);
         }
         
         for(auto i:mp)
