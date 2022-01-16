@@ -4,7 +4,7 @@ public:
         
         vector<vector<string>> ans;
         
-        map<vector<int>,vector<string>> mp;
+        map<string,vector<string>> mp;
         vector<int> arr(26,0);
         for(int i=0;i<strs.size();i++)
         {
@@ -15,9 +15,16 @@ public:
                 arr[strs[i][j]-'a']++;
             }
             
+            string key="";
+            
+            for(int i=0;i<26;i++)
+            {
+                key+="#";
+                key+=(char)(arr[i]-'0');
+            }
             
             
-            mp[arr].push_back(strs[i]);
+            mp[key].push_back(strs[i]);
             
         }
         
