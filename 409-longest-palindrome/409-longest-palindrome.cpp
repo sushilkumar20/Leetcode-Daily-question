@@ -1,22 +1,18 @@
 class Solution {
-public:
+    public:
     int longestPalindrome(string s) {
-        
-        map<char,int> mp;
-        
-        for(int i=0;i<s.size();i++)
-        {
-            mp[s[i]]++;
+        int count [128]={0};
+        for (auto c:s)
+            count[c]++;
+
+        int ans = 0;
+        for (int i=0;i<128;i++) {
+            ans += (count[i] / 2) * 2;
+          
         }
         
-        int cnt=0;
-        
-        for(auto i:mp)
-            cnt+=2*(i.second/2);
-        
-        if(cnt!=s.size())
-            return cnt+1;
-        
-        return cnt;
+        if(ans!=s.size())
+            ans++;
+        return ans;
     }
 };
