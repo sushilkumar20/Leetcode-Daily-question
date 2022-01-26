@@ -2,15 +2,33 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         
-        priority_queue<int> pq;
+        int j=0;
+        int mx=nums[0];
         
         for(int i=0;i<nums.size();i++)
-            pq.push(nums[i]);
+        {
+            if(mx<nums[i])
+            {
+                mx=nums[i];
+                j=i;
+            }
+        }
         
-        int x=pq.top();
-        pq.pop();
-        int y=pq.top();
+        int k=0;
+        mx=0;
         
-        return (x-1)*(y-1);
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i==j)
+                continue;
+            if(mx<nums[i])
+            {
+                mx=nums[i];
+                k=i;
+            }
+        }
+        
+        return (nums[j]-1)*(nums[k]-1);
+            
     }
 };
