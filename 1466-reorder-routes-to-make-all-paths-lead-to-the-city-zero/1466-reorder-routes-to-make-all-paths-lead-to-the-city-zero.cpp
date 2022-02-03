@@ -10,7 +10,7 @@ public:
         
          for(int i=0;i<neighbour.size();i++)
          {
-              if(vis[abs(neighbour[i])]==0&&neighbour[i]>0)
+              if(vis[abs(neighbour[i])]==0&&needsToPointInReverseDirection(neighbour[i]))
                  ans++;
              int k=abs(neighbour[i]);
              dfs(graph,vis,ans,k);
