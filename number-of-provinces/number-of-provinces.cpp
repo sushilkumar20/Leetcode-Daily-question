@@ -5,7 +5,7 @@ public:
     
     void dsu(int n)
     {
-       for(int i=1;i<=n;i++)
+       for(int i=0;i<n;i++)
        {
            rank[i]=1;
            root[i]=i;
@@ -55,12 +55,13 @@ public:
             }
         }
         
-        set<int> st;
-        for(int i=0;i<n;i++)
-        {
-            st.insert(find(i));
-        }
+        int cnt=0;
+       for(int i=0;i<n;i++)
+       {
+           if(root[i]==i)
+               cnt++;
+       }
         
-        return st.size();
+        return cnt;
     }
 };
