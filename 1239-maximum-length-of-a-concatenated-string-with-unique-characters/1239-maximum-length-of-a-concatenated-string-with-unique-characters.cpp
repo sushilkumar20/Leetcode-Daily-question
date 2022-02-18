@@ -16,7 +16,11 @@ public:
                 if((i&(1<<j))!=0)
                 {
                     s+=arr[j];
+                    if(s.size()>26)
+                        break;
                 }
+                
+                
             }
             
             //cout<<s<<endl;
