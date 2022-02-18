@@ -7,10 +7,12 @@ public:
         int n=(1<<x);
         //cout<<n<<endl;
         int mx=0;
+         vector<int> brr(26);
+        string s="";
         for(int i=0;i<=n;i++)
         {
            
-            string s="";
+            
             for(int j=0;j<arr.size();j++)
             {
                 if((i&(1<<j))!=0)
@@ -25,7 +27,7 @@ public:
             
             //cout<<s<<endl;
             
-            vector<int> brr(26);
+           
             bool ok=true;
             for(int j=0;j<s.size();j++)
             {
@@ -39,6 +41,11 @@ public:
             
             if(ok)
                 mx=max(mx,(int)s.size());
+            
+            s="";
+            
+            for(int i=0;i<26;i++)
+                brr[i]=0;
         }
         
         return mx;
