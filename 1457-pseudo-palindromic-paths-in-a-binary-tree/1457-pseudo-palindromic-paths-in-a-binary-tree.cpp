@@ -11,39 +11,39 @@
  */
 class Solution {
 public:
-    bool pos(unordered_map<int,int> mp)
+    bool pos(vector<int> &arr)
     {
         int x=0;
-        for(auto i:mp)
+        for(int i=0;i<10;i++)
         {
-            x+=i.second%2;
+            x+=arr[i]%2;
         }
         
         if(x>1)
             return false;
         return true;
     }
-    void dfs(TreeNode *root,unordered_map<int,int>&mp,int&ans)
+    void dfs(TreeNode *root,vector<int>&arr,int&ans)
     {
         if(root==nullptr)
             return;
         if(root->left==nullptr&&root->right==nullptr)
         {
-            mp[root->val]++;
-            if(pos(mp))
+            arr[root->val]++;
+            if(pos(arr))
                 ans++;
-            mp[root->val]--;
+            arr[root->val]--;
             return;
         }
-        mp[root->val]++;
-        dfs(root->left,mp,ans);
-        dfs(root->right,mp,ans);
-        mp[root->val]--;
+        arr[root->val]++;
+        dfs(root->left,arr,ans);
+        dfs(root->right,arr,ans);
+        arr[root->val]--;
     }
     int pseudoPalindromicPaths (TreeNode* root) {
-        unordered_map<int,int> mp;
+        vector<int> arr(10,0);
         int ans=0;
-        dfs(root,mp,ans);
+        dfs(root,arr,ans);
         
         return ans;
     }
