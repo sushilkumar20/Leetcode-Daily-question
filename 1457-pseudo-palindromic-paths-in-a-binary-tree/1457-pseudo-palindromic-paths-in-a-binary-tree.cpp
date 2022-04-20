@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    bool pos(map<int,int> mp)
+    bool pos(unordered_map<int,int> mp)
     {
         int x=0;
         for(auto i:mp)
@@ -23,7 +23,7 @@ public:
             return false;
         return true;
     }
-    void dfs(TreeNode *root,map<int,int>&mp,int&ans)
+    void dfs(TreeNode *root,unordered_map<int,int>&mp,int&ans)
     {
         if(root==nullptr)
             return;
@@ -41,7 +41,7 @@ public:
         mp[root->val]--;
     }
     int pseudoPalindromicPaths (TreeNode* root) {
-        map<int,int> mp;
+        unordered_map<int,int> mp;
         int ans=0;
         dfs(root,mp,ans);
         
