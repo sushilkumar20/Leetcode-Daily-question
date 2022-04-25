@@ -20,33 +20,30 @@
 class PeekingIterator : public Iterator {
 public:
     
-    vector<int> arr;
-    int i=0;
+   
 	PeekingIterator(const vector<int>& nums) : Iterator(nums) {
 	    // Initialize any member here.
 	    // **DO NOT** save a copy of nums and manipulate it directly.
 	    // You should only use the Iterator interface methods.
-        arr=nums;
+        
 	    
 	}
 	
     // Returns the next element in the iteration without advancing the iterator.
 	int peek() {
-       return arr[i];
+         Iterator it = *this;
+        return it.next();
 	}
 	
 	// hasNext() and next() should behave the same as in the Iterator interface.
 	// Override them if needed.
 	int next() {
-	   return arr[i++];
-        
+	   
+      return Iterator::next();
         
 	}
 	
 	bool hasNext() const {
-	    if(i<arr.size())
-            return true;
-        
-        return false;
+	    return Iterator::hasNext();
 	}
 };
