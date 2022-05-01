@@ -3,7 +3,7 @@ public:
     bool backspaceCompare(string s, string t) {
         
         stack<char> st1;
-        
+        //https://leetcode.com/problems/backspace-string-compare/
         for(int i=0;i<s.size();i++)
         {
             if(st1.size()&&st1.top()!='#'&&s[i]=='#')
