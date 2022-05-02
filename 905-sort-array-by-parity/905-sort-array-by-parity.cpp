@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> sortArrayByParity(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
+        //sort(nums.begin(),nums.end());
         
         int n = nums.size();
         
