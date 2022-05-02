@@ -17,7 +17,7 @@ public:
         }
         cout<<nums[0]<<endl;
         
-        sort(nums.begin(),nums.begin()+i);
+        //sort(nums.begin(),nums.begin()+i);
         
        // sort(nums.rbegin(),nums.rend());
         
