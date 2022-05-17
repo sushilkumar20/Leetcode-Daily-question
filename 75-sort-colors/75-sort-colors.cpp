@@ -2,32 +2,35 @@ class Solution {
 public:
     void sortColors(vector<int>& nums) {
         
-        int n=nums.size();
-        int low=0;
-        int high=n-1;
-        int mid=0;
+        int n = nums.size();
         
-        while(mid<=high)
+        int low = 0;
+        int curr = 0;
+        int high = n-1;
+        
+        while(curr<=high)
         {
-            if(nums[mid]==0)
+            if(nums[curr]==0)
             {
-                swap(nums[low],nums[mid]);
-                mid++;
+               // cout<<curr<<endl;
+                swap(nums[curr],nums[low]);
                 low++;
+                curr++;
             }
-            else if(nums[mid]==1)
+            else if(nums[curr]==1)
             {
-                mid++;
+               // cout<<curr<<endl;
+                curr++;
             }
-            else if(nums[mid]==2)
+            else 
             {
-                swap(nums[high],nums[mid]);
+                
+                swap(nums[curr],nums[high]);
                 high--;
                 
+               
+                    
             }
         }
-        
-        
-       
     }
 };
