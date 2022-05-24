@@ -38,6 +38,8 @@ public:
         {
             if(arr[i][0]==arr[0][0])
                 sum+=arr[i][1];
+            else
+                break;
         }
         
         return sum;
