@@ -12,59 +12,69 @@ class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         
-        int c=0;
-        
-        ListNode *p=l1;
+        ListNode * p=l1;
         ListNode *q=l2;
         
-        ListNode *t = new ListNode();
-        ListNode *head =t;
+        ListNode * prev =nullptr;
+        int c = 0;
+        
         while(p!=nullptr&&q!=nullptr)
         {
-            ListNode *node =new ListNode((p->val+q->val+c)%10);
+            int k=p->val+q->val;
+            k+=c;
             
-            t->next =node;
-            t=node;
-             c=(p->val+q->val+c)/10;
+            p->val=k%10;
+            c=k/10;
+            
+            prev =p;
+            
             p=p->next;
             q=q->next;
             
-           
         }
         
-         while(p!=nullptr)
+        while(p!=nullptr)
         {
-            ListNode *node =new ListNode((p->val+c)%10);
-            c=(p->val+c)/10;
-            t->next =node;
-            t=node;
+            int k=p->val+c;
+            p->val=k%10;
+            c=k/10;
+            prev=p;
+            
             p=p->next;
-           
-            
-            
         }
         
-         while(q!=nullptr)
+        while(q!=nullptr)
         {
-            ListNode *node =new ListNode((q->val+c)%10);
-            c=(q->val+c)/10;
-            t->next =node;
-            t=node;
+            int k=q->val+c;
+            q->val=k%10;
+            c=k/10;
+            if(prev==nullptr)
+            {
+                l1=q;
+                prev=q;
+            }
+            else
+            prev->next=q;
+            prev=q;
+            
             q=q->next;
-           
-            
-            
         }
         
-        if(c!=0)
+        while(c>0)
         {
-             ListNode *node =new ListNode(c%10);
+            ListNode *temp = new ListNode(c%10);
             c=c/10;
-            t->next =node;
-            t=node;
-            
-            
+            if(prev==nullptr)
+            {
+                prev=temp;
+                l1=temp;
+            }
+            else
+            {
+                prev->next=temp;
+            }
         }
-        return head->next;
+        
+        return l1;
     }
 };
