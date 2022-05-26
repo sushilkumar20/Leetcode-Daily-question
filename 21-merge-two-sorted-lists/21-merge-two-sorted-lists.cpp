@@ -12,56 +12,62 @@ class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         
-        ListNode * ans=new ListNode();
+        ListNode *prev = nullptr;
+        ListNode *p=list1;
+        ListNode *q=list2;
         
-        ListNode *p1=ans;
-        ListNode *p2=list1;
-        ListNode *p3=list2;
-        
-        while(p2!=nullptr&&p3!=nullptr)
+        while(p!=nullptr&&q!=nullptr)
         {
-            ListNode *x=new ListNode();
-            if(p2->val>p3->val)
+            if(p->val>q->val)
             {
-                x->val=p3->val;
-                p3=p3->next;
-                p1->next=x;
-                p1=x;
+                ListNode * temp=q;
+                temp=temp->next;
+                
+                
+                q->next=p;
+                
+                
+                if(prev){
+                    prev->next=q;
+                    prev=q;
+                }
+                else
+                {
+                    list1 = q;
+                    prev = q;
+                }
+                
+                q= temp;
                 
             }
             else
             {
-                x->val=p2->val;
-                p2=p2->next;
-                p1->next=x;
-                p1=x;
+                prev = p;
+                p=p->next;
             }
         }
         
-        while(p3!=nullptr)
+        while(q!=nullptr)
         {
-             ListNode *x=new ListNode();
-          
-                x->val=p3->val;
-                p3=p3->next;
-                p1->next=x;
-                p1=x;
+                ListNode * temp=q;
+                temp=temp->next;
                 
-            
+                
+                q->next=p;
+                
+                if(prev){
+                    prev->next=q;
+                    prev=q;
+                }
+            else
+            {
+                list1 = q;
+                prev = q;
+            }
+                
+                q = temp;
         }
         
-         while(p2!=nullptr)
-        {
-             ListNode *x=new ListNode();
-          
-                x->val=p2->val;
-                p2=p2->next;
-                p1->next=x;
-                p1=x;
-                
-            
-        }
-        
-        return ans->next;
+        return list1;
     }
 };
