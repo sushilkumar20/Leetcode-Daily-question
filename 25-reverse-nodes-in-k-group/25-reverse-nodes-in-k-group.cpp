@@ -15,7 +15,7 @@ public:
       if(head == nullptr)
           return head;
         ListNode *p= head;
-        
+        cout<<head->val<<endl;
         int c=0;
         while(p!=nullptr)
         {
@@ -25,9 +25,11 @@ public:
         
         if(c<k)
             return head;
+        
+        
         ListNode *prev = nullptr;
         ListNode *curr = head;
-        ListNode  *next = nullptr;
+        ListNode  *next = head->next;
         
         int cnt=0;
         
@@ -35,16 +37,17 @@ public:
         
         while(curr!=nullptr && cnt<k)
         {
-            next = curr->next;
             curr->next = prev;
             prev = curr;
-            curr =next;
+            curr = next;
+            if(next)
+            next = next->next;
             cnt++;
         }
         
-        if(next !=nullptr)
+        if(curr !=nullptr)
         {
-            head->next = reverseKGroup(next,k);
+            head->next = reverseKGroup(curr,k);
         }
         
         return prev;
