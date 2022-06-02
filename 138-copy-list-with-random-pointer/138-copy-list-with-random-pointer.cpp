@@ -18,21 +18,20 @@ class Solution {
 public:
     Node* copyRandomList(Node* head) {
         
-        if(head==nullptr)
-            return head;
-        Node*p=head;
+        map<Node*,Node*> mp;
         
-        Node  *t=new Node(head->val);
-        t->next=p->next;
-        p->next=t;
-        p=t->next;
-        while(p!=nullptr)
+        Node *dummy = new Node(0);
+        Node *curr = dummy;
+        Node *p = head;
+        
+        while(p != nullptr)
         {
-            t=new Node(p->val);
+            Node *temp = new Node(p->val);
+            mp[p]=temp;
             
-            t->next=p->next;
-            p->next=t;
-            p=t->next;
+            curr->next = temp;
+            curr=temp;
+            p=p->next;
             
         }
         
@@ -40,26 +39,10 @@ public:
         
         while(p!=nullptr)
         {
-            if(p->random!=nullptr)
-            p->next->random=p->random->next;
-            p=p->next->next;
+            mp[p]->random = mp[p->random];
+            p=p->next;
         }
         
-        
-       Node *q=new Node(0);
-       Node *r=head;
-        
-       Node * head1=q;
-        
-      
-        while(r!=nullptr)
-        {
-            q->next=r->next;
-            r->next=r->next->next;
-            r=r->next;
-            q=q->next;
-        }
-        
-        return head1->next;
+        return dummy->next;
     }
 };
