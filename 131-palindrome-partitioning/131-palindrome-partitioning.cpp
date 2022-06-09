@@ -19,19 +19,19 @@ public:
     
     void help(int i, vector<vector<string>> &ans, vector<string> &curr, string s)
     {
-        if(s.size()==0)
+        if(i==s.size())
            { 
             ans.push_back(curr);
             return;
            } 
-       // cout<<s<<endl;
+        //cout<<i<<endl;
         
-        for(int j=0;j<s.size();j++)
+        for(int j=i;j<s.size();j++)
         {
-            if(isPalindrome(s.substr(0,j+1)))
+            if(isPalindrome(s.substr(i,j-i+1)))
             {
-                curr.push_back(s.substr(0,j+1));
-                help(i,ans,curr,s.substr(j+1));
+                curr.push_back(s.substr(i,j-i+1));
+                help(j+1,ans,curr,s);
                 curr.pop_back();
             }
         }
