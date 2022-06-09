@@ -1,34 +1,32 @@
 class Solution {
 public:
-    
-    void findCombination(int ind,int target,vector<int>&arr,vector<vector<int>>&ans,vector<int> &ds)
+    void help(int i, int target, vector<int> &curr, vector<int>& candidates, vector<vector<int>> &ans)
     {
-      
-            if(target==0)
-            {
-                ans.push_back(ds);
-                return;
-            }
         if(target<0)
             return;
-        
-       for(int i=ind;i<arr.size();i++)
+        if(target == 0)
         {
-            ds.push_back(arr[i]); 
-            findCombination(i,target-arr[i],arr,ans,ds);
-            
-            // backtrack to find other combination 
-            ds.pop_back();
+            ans.push_back(curr);
+            return;
+        }
+        if(i==candidates.size())
+        {
+           return; 
         }
         
-       // findCombination(ind+1,target,arr,ans,ds);
+        curr.push_back(candidates[i]);
+        help(i,target-candidates[i],curr,candidates,ans);
+        curr.pop_back();
+        help(i+1,target,curr,candidates,ans);
     }
-    
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {   
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        
         vector<vector<int>> ans;
-        vector<int> ds;
-        findCombination(0,target,candidates,ans,ds);
-          
+        
+        vector<int> curr;
+        
+        help(0,target,curr,candidates,ans);
+        
         return ans;
     }
 };
