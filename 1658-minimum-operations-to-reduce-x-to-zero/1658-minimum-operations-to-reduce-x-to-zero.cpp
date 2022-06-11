@@ -1,48 +1,42 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
+        int n =  nums.size();
+        long sum=0;
         
-        int n=nums.size();
-        vector<int> pref(n);
+        for(int i=0;i<nums.size();i++)
+            sum+=nums[i];
         
-        pref[0]=nums[0];
+        long t = sum-x;
         
-        for(int i=1;i<n;i++)
+        sum =0;
+        
+        map<long,int> mp;
+        int ans =-1;
+        mp[0] = -1;
+        for(int i=0;i<n;i++)
         {
-            pref[i]=pref[i-1]+nums[i];
-        }
-        
-        int ans=INT_MAX;
-        
-        int sum=0;
-        for(int i=n;i>=0;i--)
-        {
-            if(i!=n)
+            sum+=nums[i];
+            long rem = sum-t;
+
+            //cout<<t<<" "<<sum<<" "<<rem<<endl;
+            if(mp.find(rem)!=mp.end())
             {
-                sum+=nums[i];
-                 if(sum==x)
-                {
-                    ans=min(ans,n-i);
-                }
+                ans = max(ans,i-mp[rem]);
+                //break;
             }
-               
-                
-                int k=lower_bound(pref.begin(),pref.end(),x-sum)-pref.begin();
-                if(k>=pref.size()||k>=i)
-                    continue;
-                //cout<<k<<endl;
-                if(pref[k]!=x-sum)
-                    continue;
-               // cout<<k<<endl;
-               
             
-               ans=min(ans,k+1+n-i);
-            
+            if(mp.find(sum)==mp.end())
+                mp[sum] = i;
         }
         
-        if(ans==INT_MAX)
+        if(sum == x)
+        {
+            return n;
+        }
+        if(ans == -1)
             return -1;
-        
-        return ans;
+        //cout<<ans<<endl;
+        return n- ans;
     }
 };
