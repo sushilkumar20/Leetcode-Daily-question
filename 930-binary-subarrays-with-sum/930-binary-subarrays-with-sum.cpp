@@ -4,7 +4,7 @@ public:
         
         int ans =0;
         int n=nums.size();
-        map<int,int> mp;
+        unordered_map<int,int> mp;
         
         int sum=0;
         mp[0]=1;
