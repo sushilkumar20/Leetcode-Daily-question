@@ -2,123 +2,51 @@ class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         
-        int n=nums1.size();
-        int m=nums2.size();
+        if(nums1.size()>nums2.size()) return findMedianSortedArrays(nums2,nums1);
         
-        if((m+n)%2)
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        
+        int low = 0;
+        int high = n1;
+        
+        while(low<=high)
         {
-            int k = (m+n)/2;
-            int x=0;
-            int i=0;
-            int j=0;
+            int mid = (low+high+1)/2;
             
-            while(i<n&&j<m)
+            int cut1 = mid;
+            int cut2 = (n1+n2+1)/2-mid;
+            
+            int left1 = INT_MIN;
+            int left2 = INT_MIN;
+            int right1 = INT_MAX;
+            int right2 = INT_MAX;
+            
+            if(cut1>0)
+                left1 = nums1[cut1-1];
+            if(cut2>0)
+                left2 = nums2[cut2-1];
+            
+            if(cut1<n1)
+                right1 = nums1[cut1];
+            if(cut2<n2)
+                right2 = nums2[cut2];
+            
+            if(left1<=right2&&left2<=right1)
             {
-                if(nums1[i]<=nums2[j])
-                {
-                       if(x==k)
-                        return nums1[i];
-                    x++;
-                    i++;
-                }
+                if((n1+n2)%2==0)
+                    return (double)(max(left1,left2)+min(right1,right2))/2.0;
                 else
-                {
-                    if(x==k)
-                        return nums2[j];
-                    x++;
-                    
-                    j++;
-                }
+                    return max(left1,left2);
             }
-            
-            while(i<n)
+            else if(left1>right2)
             {
-                  if(x==k)
-                        return nums1[i];
-                x++;
-               i++;
+                high = mid-1;
             }
-            
-            while(j<m)
-            {
-                  if(x==k)
-                        return nums2[j];
-                    x++;
-                   
-                    j++;
-            }
-            return x;
+            else
+                low = mid+1;
         }
-        else
-        {
-            int k = (m+n)/2;
-            int p =k-1;
-            int x=0;
-            double y=0;
-            double z=0;
-            int i=0;
-            int j=0;
-            
-            while(i<n&&j<m)
-            {
-                if(nums1[i]<=nums2[j])
-                {
-                       if(x==k)
-                       {
-                           y=nums1[i];
-                       }
-                    if(x==p)
-                    {
-                        z=nums1[i];
-                    }
-                    x++;
-                    i++;
-                }
-                else
-                {
-                     if(x==k)
-                       {
-                           y=nums2[j];
-                       }
-                    if(x==p)
-                    {
-                        z=nums2[j];
-                    }
-                    x++;
-                    
-                    j++;
-                }
-            }
-            
-            while(i<n)
-            {
-                   if(x==k)
-                       {
-                           y=nums1[i];
-                       }
-                    if(x==p)
-                    {
-                        z=nums1[i];
-                    }
-                x++;
-               i++;
-            }
-            
-            while(j<m)
-            {
-                  if(x==k)
-                       {
-                           y=nums2[j];
-                       }
-                    if(x==p)
-                    {
-                        z=nums2[j];
-                    }
-                    x++;
-                   
-                    j++;
-            }
-            return (y+z)/2;
-        }
+        
+        return 0.0;
     }
 };
