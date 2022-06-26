@@ -6,55 +6,48 @@ using namespace std;
  // } Driver Code Ends
 class Solution{
     public:
-    int kthElement(int arr1[], int arr2[], int n, int m, int k)
+    int kthElement(int nums1[], int nums2[], int n, int m, int k)
     {
-        int i=0;
-        int j=0;
-        int x=0;
-        while(i<n&&j<m)
+        if(n>m) return kthElement(nums2,nums1,m,n,k);
+        
+       
+        int low = max(0,k-m), high = min(k,n);
+        
+        while(low<=high)
         {
-            if(arr1[i]<=arr2[j]){
-                
-                x++;
-                
-                if(x==k)
-                return arr1[i];
-                
-                i++;
+            int mid = (low+high)/2;
             
+            int cut1 = mid;
+            int cut2 = k-mid;
+            
+            int left1 = INT_MIN;
+            int left2 = INT_MIN;
+            int right1 = INT_MAX;
+            int right2 = INT_MAX;
+            
+            if(cut1>0)
+            left1 = nums1[cut1-1];
+            
+            if(cut2>0)
+            left2 = nums2[cut2-1];
+            
+            if(cut1<n)
+            right1 = nums1[cut1];
+            
+            if(cut2<m)
+            right2 = nums2[cut2];
+            
+            if(left1<=right2&&left2<=right1)
+            return max(left1,left2);
+            else if(left1>right2)
+            {
+                high=mid-1;
             }
             else
-            {
-                x++;
-               
-                 if(x==k)
-                return arr2[j];
-                 j++;
-                
-            }
-            
+            low = mid+1;
         }
         
-        while(i<n)
-        {
-            
-            x++;
-            if(x==k)
-            return arr1[i];
-            i++;
-            
-        }
-        
-        while(j<m)
-        {
-            x++;
-            if(x==k)
-            return arr2[j];
-            j++;
-            
-        }
-        
-        return -1;
+        return 0;
     }
 };
 
