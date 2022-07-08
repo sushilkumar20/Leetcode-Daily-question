@@ -1,53 +1,74 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        
-        int mx=0;
-        int size=heights.size();
+    void findGreaterToLeft(vector<int>&heights, vector<int> &greaterElementLeft)
+    {
+        int n = heights.size();
         stack<int> st;
         
-        vector<int> to_right(size,-1);
-        for(int i=0;i<size;i++)
+        for(int i=n-1;i>=0;i--)
         {
-            while(st.size()&&heights[st.top()]>heights[i])
+            while(st.size()&&heights[i]<heights[st.top()])
             {
-                to_right[st.top()]=i;
+                greaterElementLeft[st.top()] = i;
                 st.pop();
             }
+            
             st.push(i);
         }
         
         while(st.size())
         {
-            to_right[st.top()]=size;
+            greaterElementLeft[st.top()] = -1;
             st.pop();
         }
+    }
+    
+    void findGreaterToRight(vector<int> &heights, vector<int> &greaterElementRight)
+    {
+        int n = heights.size();
+        stack<int> st;
         
-        vector<int> to_left(size,-1);
-        
-        for(int i=size-1;i>=0;i--)
+        for(int i=0;i<n;i++)
         {
-            while(st.size()&&heights[st.top()]>heights[i])
+            while(st.size() && heights[i]<heights[st.top()])
             {
-                to_left[st.top()]=i;
+                greaterElementRight[st.top()] = i;
                 st.pop();
             }
+            
             st.push(i);
         }
         
          while(st.size())
-        {
-            to_left[st.top()]=-1;
+         {
+            greaterElementRight[st.top()] = n;
             st.pop();
+         }
+    }
+    
+    int largestRectangleArea(vector<int>& heights) {
+        
+        int n = heights.size();
+        vector<int> greaterElementLeft(n);
+        
+        vector<int> greaterElementRight(n);
+        
+        findGreaterToLeft(heights,greaterElementLeft);
+        findGreaterToRight(heights, greaterElementRight);
+        
+        int mx = 0;
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            int h = heights[i];
+           
+            int width = greaterElementRight[i] - greaterElementLeft[i]-1;
+            
+            //cout<<h<<" "<<width<<endl;
+            mx = max(mx,h*width);
         }
         
-        to_left[0]=-1;
-        to_right[size-1]=size;
-        for(int i=0;i<size;i++)
-        {
-            //cout<<to_right[i]<<" "<<to_left[i]<<endl;
-            mx=max(mx,heights[i]*(to_right[i]-to_left[i]-1));
-        }
         return mx;
     }
 };
