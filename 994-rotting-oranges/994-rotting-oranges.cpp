@@ -1,52 +1,68 @@
 class Solution {
 public:
-    void dfs(int i,int j,int cost, vector<vector<int>>& grid,vector<vector<int>>& mat)
-    {
-        if(i>=grid.size()||j>=grid[0].size()||i<0||j<0||grid[i][j]==0||grid[i][j]==-1)
-            return;
-        if(cost>mat[i][j])
-            return ;
-        mat[i][j] = min(mat[i][j],cost);
-        int p=grid[i][j];
-        grid[i][j] = -1;
-        dfs(i+1,j,cost+1,grid,mat);
-        dfs(i-1,j,cost+1,grid,mat);
-        dfs(i,j+1,cost+1,grid,mat);
-        dfs(i,j-1,cost+1,grid,mat);
-        grid[i][j] = p;
-        
-    }
     int orangesRotting(vector<vector<int>>& grid) {
         
         int n = grid.size();
         int m = grid[0].size();
-        vector<vector<int>> mat(n,vector<int>(m,INT_MAX));
+        queue<pair<int,int>> q;
+        
+       
+        int cntOrange =0;
         
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<m;j++)
             {
                 if(grid[i][j] == 2)
-                {
-                    dfs(i,j,0,grid,mat);
-                }
-            }
-        }
-        
-        int mx = 0;
-        
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<m;j++)
-            {
-                if(grid[i][j] == 1&&mat[i][j]==INT_MAX)
-                    return -1;
+                    q.push({i,j});
                 
                 if(grid[i][j]!=0)
-                mx=max(mat[i][j],mx);
+                    cntOrange++;
             }
         }
         
-        return mx;
+        int dx[4] = {0,0,-1,1};
+        int dy[4] = {1,-1,0,0};
+        int rottenOrange = 0;
+         int day =0;
+        
+        while(q.size())
+        {
+            int k = q.size();
+            
+            rottenOrange +=k;
+           // cout<<k<<endl;
+            
+            for(int i=0;i<k;i++)
+            {
+                int x = q.front().first;
+                int y = q.front().second;
+                
+                q.pop();
+                for(int j=0;j<4;j++)
+                {
+                    int nx = x+dx[j];
+                    int ny = y+dy[j];
+                   
+                    if(nx<0||ny<0||nx>=n||ny>=m)
+                        continue;
+                    if(grid[nx][ny]!=1)
+                        continue;
+                    grid[nx][ny] = 2;
+                    
+                    q.push({nx,ny});
+                    // cout<<nx<<" kkkk"<<ny<<endl;
+                }
+            }
+            
+            if(q.size())
+                day++;
+                
+        }
+        
+        //cout<<cntOrange<<" "<<rottenOrange<<endl;
+        if(cntOrange==rottenOrange)
+            return day;
+        return -1;
     }
 };
