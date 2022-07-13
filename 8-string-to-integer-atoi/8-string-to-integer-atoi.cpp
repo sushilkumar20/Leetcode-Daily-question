@@ -2,70 +2,82 @@ class Solution {
 public:
     int myAtoi(string s) {
         
-        int n=s.size();
         string ans="";
         bool ok=true;
-        
-        int i;
-        for(i=0;i<n;i++)
+        int cnt=0;
+        for(int i=0;i<s.size();i++)
         {
-            if(s[i]!=' ')
-                break;
-        }
-        
-        for(;i<n;i++)
-        {
-            if(s[i]=='-')
-                ok=false;
-            break;
-        }
-        
-        if(!ok){
-            i++;
-            
-        }
-        
-        if(s[i]=='+'&&ok)
-            i++;
-        
-        
-        for(;i<n;i++)
-        {
-            if(s[i]!='0')
-                break;
-        }
-        for(;i<n;i++)
-        {
-            
             if(s[i]>='0'&&s[i]<='9')
-            ans+=s[i];
-            else
+            {
+                ans+=s[i];
+            }
+            else if(s[i]=='-'||s[i]=='+'){
+                 if(ans.size()>0)
+                    break; 
+                cnt++;
+                if(s[i]=='-')
+                ok=false;
+                
+               
+            
+            }
+            else if(s[i]!=' ')
+                break;
+            else if(s[i] == ' ')
+            {
+                if(ans.size()>0||cnt>0)
+                    break;
+            }
+        }
+        if(cnt>=2)
+            return 0;
+        int i=0;
+        for(;i<ans.size();i++)
+        {
+            if(ans[i]!='0')
                 break;
         }
         
-        if(ans.size()==0)
-            return 0;
-        if(ans.size()>10)
-        {
-           if(!ok)
-               return INT_MIN;
-            
-            return INT_MAX;
-        }
+        ans=ans.substr(i);
         
-        long long k=stol(ans);
-        
-      if(k>INT_MAX)
-      {
-          if(ok)
-              return INT_MAX;
-          return INT_MIN;
-      }
-        
+        //cout<<ans<<" "<<ok<<endl;
+      
         if(ok)
-        return k;
-        
-        return -1*k;
+        {
+          //  cout<<ans<<endl;
+            long long k =0;
+            int cnt=0;
+            for(int i=ans.size()-1;i>=0;i--)
+            {
+                k+=((long long)pow(10ll,cnt)*(long long)(ans[i]-'0'));
+               // cout<<k<<endl;
+                 if(k>=INT_MAX||cnt>=10)
+                 return INT_MAX; 
+                cnt++;
+            }
+            
+           
+            
+            return k;
+        }
+        else
+        {
+             long long k =0;
+            int cnt=0;
+            for(int i=ans.size()-1;i>=0;i--)
+            {
+                k-=((long long)pow(10,cnt)*(ans[i]-'0'));
+              //  cout<<k<<endl;
+                if(k<=INT_MIN||cnt>=10)
+                return INT_MIN;
+                cnt++;
+            }
+           // cout<<k<<endl;
+            // k=-1*k;
+            
+            
+            return k;
+        }
         
     }
 };
