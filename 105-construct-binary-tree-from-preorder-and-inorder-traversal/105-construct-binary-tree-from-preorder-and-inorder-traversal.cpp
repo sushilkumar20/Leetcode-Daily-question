@@ -11,18 +11,20 @@
  */
 class Solution {
 public:
-    TreeNode* construct(vector<int>& preorder,int ps,int pe, vector<int>&inorder, int is, int ie,map<int,int> &mp)
+    TreeNode* construct(vector<int>& preorder,int &ps, vector<int>&inorder, int is, int ie,map<int,int> &mp)
     {
-        if(is>ie||ps>pe)
+        if(is>ie||ps>=preorder.size())
             return nullptr;
         
         TreeNode * root = new TreeNode(preorder[ps]);
         
         int k=mp[preorder[ps]];
         
-        int fromStartInorder = k-is;
-        root->left = construct(preorder,ps+1,ps+fromStartInorder,inorder,is,k-1,mp);
-        root->right = construct(preorder,ps+fromStartInorder+1,pe,inorder,k+1,ie,mp);
+       // int fromStartInorder = k-is;
+        ps++;
+        root->left = construct(preorder,ps,inorder,is,k-1,mp);
+      //  ps++;
+        root->right = construct(preorder,ps,inorder,k+1,ie,mp);
         
         return root;
     }
@@ -37,6 +39,8 @@ public:
         {
             mp[inorder[i]]=i;
         }
-        return construct(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,mp);
+        
+        int i=0;
+        return construct(preorder,i,inorder,0,inorder.size()-1,mp);
     }
 };
