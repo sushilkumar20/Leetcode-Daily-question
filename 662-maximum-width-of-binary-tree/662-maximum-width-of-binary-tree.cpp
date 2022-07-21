@@ -12,45 +12,65 @@
 class Solution {
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        if(root == NULL)
+        
+        
+        long long mx =0;
+        
+        if(root==nullptr)
             return 0;
         
-        int res = 1;
-        queue<pair<TreeNode*, int>> q;
+        int cnt=0;
         
-        // I am using intialising list
-        q.push({root, 0});      // also can use make_pair
+        queue<pair<TreeNode*,long long>> q;
+        q.push({root,0});
         
-        while(!q.empty())
+        //int mx = 0;
+        while(q.size())
         {
-            int cnt = q.size();
-            // start is the index of root node for first level
-            int start = q.front().second;
-            int end = q.back().second;
+            int n = q.size();
             
-            res = max(res,end-start + 1);
+            //int mn = q.front()
             
-            for(int i = 0; i <cnt; ++i)
+            long long mnLevel =INT_MAX;
+            long long mxLevel = 0;
+            for(int i=0;i<n;i++)
             {
-                pair<TreeNode*, int> p = q.front();
-                // we will use it while inserting it children
-                // left child will be 2 * idx + 1;
-                // right chils will be 2 * idx + 2;
-                int idx = p.second - start;
-                
+//cout<<1<<endl;
+                auto currNodeP = q.front();
                 q.pop();
                 
-                // if  left child exist
-                if(p.first->left != NULL)
-                    q.push({p.first->left, (long long)2 * idx + 1});
+                TreeNode*curr = currNodeP.first;
+                long long ind = currNodeP.second;
                 
-                // if right child exist
-                if(p.first->right != NULL)
-                    q.push({p.first->right, (long long) 2 * idx + 2});
+                if(i==0)
+                {
+                    mnLevel = min(mnLevel,ind);
+                    
+                }
+                 
+                mxLevel = max(mxLevel,ind);
+                ind =ind-mnLevel;
+                
+                
+                
+                 if(curr->left)
+                 {
+                     int k = 2*ind+1;
+                     q.push({curr->left,k});
+                 }
+                
+                if(curr->right)
+                {
+                    int k = 2*ind+2;
+                    q.push({curr->right,k});
+                }
+                
+            
             }
+            
+            mx = max(mx,mxLevel-mnLevel+1);
         }
         
-        return res;
-        
+        return mx;
     }
 };
