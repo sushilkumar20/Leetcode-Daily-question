@@ -11,34 +11,29 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root, map<TreeNode*,int>&mp)
+    int dfs(TreeNode* root, int &mx)
     {
         if(root == nullptr)
         {
             return 0;
         }
         
-        int l1 =dfs(root->left,mp);
-        int r1 =dfs(root->right,mp);
+        int l1 = dfs(root->left,mx);
+        int r1 = dfs(root->right,mx);
         
        // cout<<l1<<" "<<r1<<" "<<root->val<<endl;
-        int mx =max(mp[root],l1+r1+1);
-        mp[root] = mx;
+         mx = max(mx,l1+r1+1);
+       
         return max(l1,r1)+1;
         
     }
     int diameterOfBinaryTree(TreeNode* root) {
         
-        map<TreeNode*,int>mp;
-        
-        dfs(root,mp);
-        
         int mx=0;
         
-        for(auto i:mp)
-        {
-            mx=max(mx,i.second);
-        }
+        dfs(root,mx);
+        
+      
         
         return mx-1;
     }
