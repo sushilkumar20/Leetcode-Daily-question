@@ -11,17 +11,21 @@
  */
 class Solution {
 public:
-    int check(TreeNode*root, bool &ok)
+    int check(TreeNode*root)
     {
         if(root==nullptr)
             return 0;
         
-        int l1 = check(root->left,ok);
-        int l2 = check(root->right,ok);
+        int l1 = check(root->left);
+        if(l1==-1)
+            return -1;
+        int l2 = check(root->right);
         
+        if(l2==-1)
+            return -1;
         if(abs(l1-l2)>1)
         {
-            ok=false;
+            return -1;
         }
         
         return max(l1,l2)+1;
@@ -30,8 +34,9 @@ public:
         
         bool ok = true;
         
-        check(root,ok);
+        if(check(root)==-1)
+            return  false;
         
-        return ok;
+        return true;
     }
 };
