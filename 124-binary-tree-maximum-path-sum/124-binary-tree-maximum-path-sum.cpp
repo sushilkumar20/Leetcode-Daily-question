@@ -11,45 +11,39 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode*root,int &mx,unordered_map<TreeNode*, int> &mp)
+    int solve(TreeNode*root, int &sum)
     {
         if(root==nullptr)
             return 0;
         
-        int left=0;
-        int right=0;
-        
-        if(mp.find(root->left)!=mp.end())
+        if(root->left==nullptr&&root->right == nullptr)
         {
-            left = max(mp[root->left],0);
-        }
-        else
-        {
-            left = max( dfs(root->left,mx,mp),0);
+            sum=max(sum,root->val);
+            
+            if(root->val<0)
+                return 0;
+            
+            return root->val;
         }
         
-        if(mp.find(root->right)!=mp.end())
-        {
-            right = max(mp[root->right],0);
-        }
-        else
-        {
-            right = max( dfs(root->right,mx,mp),0);
-        }
+        int leftP = solve(root->left,sum);
+        int rightP = solve(root->right,sum);
         
-        mp[root] = left+right+root->val;
+        sum = max(sum,leftP+rightP+root->val);
         
-        mx=max(mx,mp[root]);
+        int mx =max(leftP,rightP);
         
-        return root->val+max(left,right);
+        if(mx+root->val<0)
+            return 0;
+        
+        return mx+root->val;
     }
     int maxPathSum(TreeNode* root) {
         
-        int mx=INT_MIN;
-        unordered_map<TreeNode*, int> mp;
+        int sum = INT_MIN;
         
-        dfs(root,mx,mp);
+        solve(root,sum);
         
-        return mx;
+        return sum;
     }
 };
