@@ -12,56 +12,34 @@ class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
         
-        ListNode *headg = new ListNode();
-        
-        ListNode *curr1 = headg;
-        ListNode *curr = head;
-        ListNode  *prev = nullptr;
-        if(curr==nullptr||curr->next == nullptr)
-            return head;
+       ListNode *beforeHead = new ListNode();
+       ListNode *before = beforeHead;
+       
+        ListNode *afterHead = new ListNode();
+        ListNode *after = afterHead;
         
         
-        while(curr!=nullptr)
+        while(head!=nullptr)
         {
-            if(curr->val>=x)
+            if(head->val>=x)
             {
-                if(prev == nullptr)
-                {
-                    ListNode* p= curr->next;
-                    curr1->next = curr;
-                    curr->next = nullptr;
-                    curr1 = curr;
-                    curr =p;
-                    head = p;
-                    //cout<<curr->val<<endl;
-                }
-                else
-                {
-                    prev->next = curr->next;
-                    curr1->next = curr;
-                    curr->next = nullptr;
-                    
-                    curr1= curr;
-                    
-                    curr=prev->next;
-                
-                }
+                after->next = head;
+                after = after->next;
             }
-           else
-           {
-               prev = curr;
-               curr=curr->next;
-           }
+            else
+            {
+                before->next = head;
+                before = before->next;
+            }
+            
+            head=head->next;
         }
         
+        after->next = nullptr;
         
-        if(prev == nullptr){
-            return headg->next;
-          //  cout<<1<<endl;
-        }
+        before->next = afterHead->next;
         
-        prev->next = headg->next;
+        return beforeHead->next;
         
-        return head;
     }
 };
