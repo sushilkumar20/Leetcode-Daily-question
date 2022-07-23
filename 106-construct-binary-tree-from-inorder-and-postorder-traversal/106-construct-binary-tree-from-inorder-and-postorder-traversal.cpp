@@ -14,19 +14,15 @@ public:
     
     TreeNode *construct(vector<int>& inorder, int start, int end, vector<int>& postorder, int&i,  map<int,int> &mp)
     {
-        if(i<0||start>end){
-           // cout<<start<<" "<<end<<" "<<i<<endl;
+        if(i<0||start>end)
             return nullptr;
-        }
         
-        int k=mp[postorder[i]];
-        TreeNode* root = new TreeNode(postorder[i]);
+        TreeNode *root = new TreeNode(postorder[i]);
+        int mid = mp[postorder[i]];
         i--;
         
-        
-        root->right =construct(inorder,k+1,end,postorder,i,mp);
-           
-        root->left = construct(inorder,start,k-1,postorder,i,mp);
+        root->right = construct(inorder,mid+1,end,postorder,i,mp);
+        root->left = construct(inorder,start,mid-1,postorder,i,mp);
         
         return root;
     }
