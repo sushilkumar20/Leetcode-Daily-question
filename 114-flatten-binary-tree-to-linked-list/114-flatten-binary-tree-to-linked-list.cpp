@@ -14,14 +14,24 @@ public:
     TreeNode *prev = nullptr;
     void flatten(TreeNode* root) {
         
-        if(root==nullptr)
-            return;
-        
-        flatten(root->right);
-        flatten(root->left);
-        
-        root->left = nullptr;
-        root->right = prev;
-        prev = root;
+       if(root==nullptr)
+           return;
+        stack<TreeNode*> st;
+        st.push(root);
+        while(st.size())
+        {
+            TreeNode *curr = st.top();
+            st.pop();
+            
+            if(curr->right)
+                st.push(curr->right);
+            
+            if(curr->left)
+                st.push(curr->left);
+            
+            curr->left = nullptr;
+            if(!st.empty())
+            curr->right = st.top();
+        }
     }
 };
