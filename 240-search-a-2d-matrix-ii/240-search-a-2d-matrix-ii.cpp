@@ -2,12 +2,21 @@ class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         
-        for(int i=0;i<matrix.size();i++)
+       int i=0;
+        int j=matrix[0].size()-1;
+        int m = matrix.size();
+        
+        while(i<m&&j>=0)
         {
-            int k = lower_bound(matrix[i].begin(),matrix[i].end(),target)-matrix[i].begin();
-            
-           // cout<<k<<endl;
-            if(k<matrix[i].size()&&k>=0&&matrix[i][k]==target)
+           if(matrix[i][j]>target)
+           {
+              j--;
+           }
+            else if(matrix[i][j]<target)
+            {
+                i++;
+            }
+            else
                 return true;
         }
         
