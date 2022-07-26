@@ -9,48 +9,19 @@
  */
 class Solution {
 public:
-    bool dfs(TreeNode* root, TreeNode*p, vector<TreeNode*> &arr)
-    {
-        if(root==nullptr)
-            return false;
-        
-        if(root==p)
-        {
-            arr.push_back(root);
-            return true;
-        }
-        
-        arr.push_back(root);
-        bool kk = dfs(root->left,p,arr);
-        bool ok = dfs(root->right,p,arr);
-        
-        if(!ok&&!kk)
-        {
-            arr.pop_back();
-            return false;
-        }
-        
-        return true;
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(!root) return root;
         
-        vector<TreeNode*> arr1;
-        vector<TreeNode*> arr2;
+        if(root == p || root == q) return root;
         
-        bool ok1 =dfs(root,p,arr1);
-        bool ok2=dfs(root,q,arr2);
+        TreeNode *l = lowestCommonAncestor(root->left,p,q);
+        TreeNode *r = lowestCommonAncestor(root->right,p,q);
         
-        if(!ok1||!ok2)
-            return nullptr;
-        //cout<<arr1.size()<<" "<<arr2.size()<<endl;
-        TreeNode *temp=nullptr;
-        for(int i=0;i<min((int)arr1.size(),(int)arr2.size());i++)
-        {
-            if(arr1[i]!=arr2[i])
-                break;
-            temp=arr1[i];
-        }
+        if(l&&r) return root;
         
-        return temp;
+        if(l) return l;
+        
+        
+        return r;
     }
 };
