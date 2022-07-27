@@ -23,50 +23,37 @@ class Solution {
 public:
     Node* cloneGraph(Node* node) {
         
+        map<Node*,Node*> mp;
         if(node==nullptr)
             return nullptr;
-        Node *root = new Node();
-        map<int,Node*> mp;
-        
         queue<Node*> q;
+        q.push(node);
         
-          q.push(node);
-          Node *nw=new Node(node->val);
-        
-         root=nw;
-        
-         mp[node->val]=nw;
-        int i=0;
-        while(q.size()!=0)
+        Node* root = new Node(node->val);
+        mp[node] = root;
+        //Node*curr;
+        while(q.size())
         {
-            Node*p=q.front();
+            Node* p= q.front();
             q.pop();
             
-            
-          
-            //mp[p->val]=nw;
-            //cout<<p->val<<endl;
-           
-           
-            
-            for(int i=0;i<p->neighbors.size();i++)
+            for(auto i:p->neighbors)
             {
-                if(mp.find(p->neighbors[i]->val)==mp.end())
+                if(mp.find(i)==mp.end())
                 {
-                   
-                     Node *nw1= new Node(p->neighbors[i]->val);
-                     mp[p->neighbors[i]->val]=nw1;
-                     q.push(p->neighbors[i]);
+                    Node *newNode = new Node(i->val);
+                    mp[i] = newNode;
+                    mp[p]->neighbors.push_back(newNode);
+                    q.push(i);
+                    
                 }
-                
-               // cout<<p->val<<" "<<p->neighbors[i]->val<<endl;
-                
-                mp[p->val]->neighbors.push_back(mp[p->neighbors[i]->val]);
+                else
+                {
+                     mp[p]->neighbors.push_back(mp[i]);
+                }
             }
         }
         
         return root;
-        
-        
     }
 };
