@@ -26,27 +26,40 @@ public:
         
         vector<int> adj[numCourses];
         int n = prerequisites.size();
-        
+        vector<int> inDegree(numCourses,0);
         for(int i=0;i<n;i++)
         {
             adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
+            inDegree[prerequisites[i][0]]++;
         }
         
-        vector<int> vis(numCourses,0);
-         vector<int> dfsV(numCourses,0);
+        int cnt=0;
+        
+        queue<int> q;
+        
         for(int i=0;i<numCourses;i++)
         {
-            if(vis[i]==0)
-            { 
-                 //cout<<i<<endl;
-                 if(dfs(i,dfsV,vis,adj)){
-                     cout<<i<<endl;
-                     return false;
-                 }
-            }
-           
+            if(inDegree[i]==0)
+                q.push(i);
         }
         
-        return true;
+        while(q.size())
+        {
+            int u = q.front();
+            q.pop();
+            cnt++;
+            for(auto v:adj[u])
+            {
+                inDegree[v]--;
+                if(inDegree[v]==0)
+                    q.push(v);
+            }
+        }
+        
+       // cout<<cnt<<endl;
+        if(cnt==numCourses)
+            return true;
+        
+        return false;
     }
 };
