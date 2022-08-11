@@ -13,16 +13,16 @@ class Solution {
 public:
     bool check(TreeNode *root, long long mn, long long mx)
     {
-        if(root==nullptr)
-            return true;
+       if(root== nullptr)
+           return true;
         
-        if(root->val>=mx||root->val<=mn)
+        if(root->val<=mn||root->val>=mx)
             return false;
         
-        bool kk = check(root->left,mn,root->val);
-        bool kk1 = check(root->right,root->val,mx);
+        bool left = check(root->left,mn,root->val);
+        bool right = check(root->right,root->val,mx);
         
-        return kk&&kk1;
+        return left&&right;
         
     }
     bool isValidBST(TreeNode* root) {
