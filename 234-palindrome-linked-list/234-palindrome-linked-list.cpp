@@ -12,6 +12,7 @@ class Solution {
 public:
     bool isPalindrome(ListNode* head) {
         
+         
         if(head == nullptr)
             return true;
         ListNode *l1 = head;
