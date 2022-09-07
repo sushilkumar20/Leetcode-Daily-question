@@ -11,34 +11,50 @@
  */
 class Solution {
 public:
-    void preorder(TreeNode* root, string &ans)
+    void pre(TreeNode* root, string &ans)
     {
         if(root==nullptr)
             return;
+        
+        ans+=to_string(root->val);
+        
         if(root->left==nullptr&&root->right==nullptr)
+            return ;
+        
+        if(root->left==nullptr)
         {
-            ans+=to_string(root->val);
-            return;
+            ans+="()";
+            ans+="(";
+            
+            pre(root->right,ans);
+            ans+=")"; 
         }
-        ans+= to_string(root->val);
-        
-        ans+="(";
-        preorder(root->left,ans);
-        ans+=")";
-        
-        
-        if(root->right!=nullptr)
+        else if(root->right==nullptr)
         {
-        ans+="(";
-        preorder(root->right,ans);
-        ans+=")";
+            ans+="(";
+            
+            pre(root->left,ans);
+            ans+=")"; 
         }
+        else
+        {
+            ans+="(";
+            pre(root->left,ans);
+            ans+=")";
+            
+            ans+="(";
+            pre(root->right,ans);
+            ans+=")";
+            
+        }
+        
     }
     string tree2str(TreeNode* root) {
         
-        string ans="";
+        string ans = "";
         
-        preorder(root,ans);
+        pre(root,ans);
+        
         return ans;
     }
 };
