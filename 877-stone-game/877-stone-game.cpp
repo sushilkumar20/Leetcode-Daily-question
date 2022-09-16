@@ -23,7 +23,7 @@ public:
         
         dfs(0,0,piles,dp);
         
-        if(dp[0][0]>dp[1][1])
+        if(dp[0][0]>dp[0][1])
             return true;
         
         return false;
