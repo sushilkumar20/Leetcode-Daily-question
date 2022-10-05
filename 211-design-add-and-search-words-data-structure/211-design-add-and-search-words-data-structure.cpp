@@ -1,34 +1,91 @@
+class TrieNode{
+    public :
+     char data;
+     TrieNode *children[26];
+      bool isTerminal;
+    TrieNode(char ch)
+    {
+        data = ch;
+        
+        for(int i=0;i<26;i++)
+            children[i] =  nullptr;
+        
+        isTerminal = false;
+    }
+        
+};
 class WordDictionary {
 public:
-    map<int,vector<string>> mp;
+    TrieNode *root;
     WordDictionary() {
-       //st.insert()
+         root = new TrieNode('*');
     }
-    
-    void addWord(string word) {
-        mp[(int)word.size()].push_back(word);
-    }
-    
-    bool search(string word) {
-        
-        for(auto i:mp[word.size()])
+    void addWordUtil(string word, TrieNode *root)
+    {
+        if(word.size()==0)
         {
-            bool ok=true;
-           
-            for(int j=0;j<i.size();j++)
-            {
-                if(word[j]=='.')
-                    continue;
-                if(word[j]!=i[j]){
-                    ok=false;
-                    break;
-                }
-            }
-            if(ok)
-                return true;
+            root->isTerminal = true;
+            return;
         }
         
-        return false;
+        int ind = word[0]-'a';
+        
+        TrieNode*child;
+        
+        if(root->children[ind]==nullptr)
+        {
+            child = new TrieNode(word[0]);
+            root->children[ind] = child;
+        }
+        else
+            child = root->children[ind];
+        
+        addWordUtil(word.substr(1),child);
+    }
+    void addWord(string word) {
+        
+        addWordUtil( word, root);
+    }
+    
+     bool searchWordUtil(string &word, TrieNode *root,int i)
+    {
+        if(word.size()<=i)
+        {
+           return root->isTerminal == true;
+            
+        }
+         //cout<<word<<" "<<i<<endl;
+        
+        int ind = word[i]-'a';
+        
+         if(word[i]=='.')
+         {
+             
+             for(int j=0;j<26;j++)
+             {
+                 if(root->children[j]!=nullptr)
+                 {
+                     if(searchWordUtil(word,root->children[j] ,i+1))
+                         return true;
+                 }
+             }
+             
+             return false;
+         }
+        TrieNode*child;
+        
+        if(root->children[ind]==nullptr)
+        {
+            return false;
+        }
+        else
+            child = root->children[ind];
+        
+        return searchWordUtil(word,child,i+1);
+    }
+    bool search(string word) {
+        int i=0;
+        return searchWordUtil(word,root,i);
     }
 };
 
