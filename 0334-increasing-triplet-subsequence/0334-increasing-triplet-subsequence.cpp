@@ -2,25 +2,25 @@ class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
         
-        vector<int> temp;
+        int smallest = INT_MAX;
+        int middle = INT_MAX;
         
-        temp.push_back(nums[0]);
+        int n = nums.size();
         
-        for(int i=1;i<nums.size();i++)
+        for(int i=0;i<n;i++)
         {
-            if(temp.back()<nums[i]){
-                temp.push_back(nums[i]);
-                if(temp.size()==3)
-                    return 1;
+            if(smallest>=nums[i])
+            {
+                smallest = nums[i];
+            }
+            else if(middle>=nums[i])
+            {
+                middle = nums[i];
             }
             else
-            {
-                int ind = lower_bound(temp.begin(),temp.end(),nums[i])-temp.begin();
-                
-                temp[ind] = nums[i];
-            }
+                return 1;
         }
         
-        return false;
+        return 0;
     }
 };
