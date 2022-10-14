@@ -35,12 +35,8 @@ class Solution{
 	     
 	     for(int i=0;i<n;i++)
 	     {
-	         for(int j=i+1;j<n;j++)
-	         {
-	             if(nums[i]>nums[j])
-	             mx=max(dp1[i]+dp2[j],mx);
-	         }
-	         mx=max(mx,dp1[i]);
+	        
+	         mx=max(mx,dp1[i]+dp2[i]-1);
 	     }
 	     
 	     return mx;
