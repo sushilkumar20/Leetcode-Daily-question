@@ -9,7 +9,7 @@ public:
     }
     int longestStrChain(vector<string>& words) {
         
-        map<string,int> dp;
+        unordered_map<string,int> dp;
         
         sort(words.begin(),words.end(),cmp);
         
