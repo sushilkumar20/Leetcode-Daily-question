@@ -2,50 +2,38 @@ class Solution {
 public:
     int maxLength(vector<string>& arr) {
         
-        int x=arr.size();
-       
-        int n=(1<<x);
-        //cout<<n<<endl;
-        int mx=0;
-         vector<int> brr(26);
-        string s="";
-        for(int i=0;i<=n;i++)
+        int n = arr.size();
+        
+        int pos = (1<<n);
+        
+        int mx = 0;
+        
+        for(int i=1;i<pos;i++)
         {
-           
-            
+            vector<int> alp(26,0);
+            bool ok=true;
+            int cnt=0;
             for(int j=0;j<arr.size();j++)
             {
                 if((i&(1<<j))!=0)
                 {
-                    s+=arr[j];
-                    if(s.size()>26)
-                        break;
+                    cnt+=arr[j].size();
+                    for(int k=0;k<arr[j].size();k++)
+                    {
+                        alp[arr[j][k]-'a']++;
+                        
+                        if(alp[arr[j][k]-'a']>1)
+                        {
+                            ok=false;
+                            break;
+                        }
+                    }
                 }
-                
-                
-            }
-            
-            //cout<<s<<endl;
-            
-           
-            bool ok=true;
-            for(int j=0;j<s.size();j++)
-            {
-                brr[s[j]-'a']++;
-                if(brr[s[j]-'a']>1)
-                {
-                    ok=false;
+                if(!ok)
                     break;
-                }
             }
-            
             if(ok)
-                mx=max(mx,(int)s.size());
-            
-            s="";
-            
-            for(int i=0;i<26;i++)
-                brr[i]=0;
+                mx=max(mx,cnt);
         }
         
         return mx;
