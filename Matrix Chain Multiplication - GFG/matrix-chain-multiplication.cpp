@@ -29,8 +29,24 @@ public:
     int matrixMultiplication(int N, int arr[])
     {
         // code here
-        vector<vector<int>> dp(N,vector<int>(N,-1));
-        return help(1,N-1,arr,dp);
+        vector<vector<int>> dp(N,vector<int>(N));
+        
+        for(int i=N-1;i>=1;i--)
+        {
+            for(int j=i+1;j<N;j++)
+            {
+                int min_step = 1e9;
+                
+                for(int k=i;k<=j-1;k++)
+                {
+                    int step = arr[i-1]*arr[k]*arr[j]+dp[i][k]+dp[k+1][j];
+                    min_step = min(min_step,step);
+                }
+                dp[i][j] = min_step;
+            }
+        }
+        
+        return dp[1][N-1];
     }
 };
 
