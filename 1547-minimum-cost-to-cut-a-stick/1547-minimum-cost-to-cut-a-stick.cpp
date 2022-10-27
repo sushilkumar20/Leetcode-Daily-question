@@ -24,7 +24,23 @@ public:
         cuts.insert(cuts.begin(),0);
         sort(cuts.begin(),cuts.end());
         
-        vector<vector<int>> dp(cuts.size(),vector<int>(cuts.size(),-1));
-        return help(1,cuts.size()-2,cuts,dp);
+        vector<vector<int>> dp(cuts.size(),vector<int>(cuts.size(),0));
+        
+        
+        for(int i=cuts.size()-2;i>=1;i--)
+        {
+            for(int j=i;j<cuts.size()-1;j++)
+            {
+                int min_cost = INT_MAX;
+                for(int k=i;k<=j;k++)
+                {
+                    int cost = cuts[j+1]-cuts[i-1]+dp[i][k-1]+dp[k+1][j];
+                    min_cost = min(min_cost,cost);
+                }
+                dp[i][j]= min_cost;
+            }
+        }
+        
+        return dp[1][cuts.size()-2];
     }
 };
