@@ -30,7 +30,22 @@ public:
     }
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
         
-        vector<int> dp(arr.size(),-1);
-        return help(0,k,arr,dp);
+        int n = arr.size();
+        vector<int> dp(arr.size()+1,0);
+        
+        for(int i=n-1;i>=0;i--)
+        {
+            int mx =0;
+            int maxTillNow = 0;
+            for(int j=i;j<min(n,i+k);j++)
+            {
+                maxTillNow = max(maxTillNow,arr[j]);
+                int sum1 = maxTillNow*(j-i+1);
+                mx=max(sum1+dp[j+1],mx);
+            }
+            
+            dp[i]=mx;
+        }
+        return dp[0];
     }
 };
