@@ -22,12 +22,12 @@ public:
             return 0;
         if(dp[i]!=-1)
             return dp[i];
-        int min_cost = INT_MAX;
-        string temp = "";
+       string temp ="";
+          int min_cost = INT_MAX;
         for(int j=i;j<s.size();j++)
         {
             temp.push_back(s[j]);
-            
+          
             if(isPal(temp))
             {
                 int cost = 1+fun(j+1,s,dp);
@@ -39,9 +39,27 @@ public:
     }
     int minCut(string s) {
         
-
-        vector<int> dp(s.size(),-1);
+        int n = s.size();
+        vector<int> dp(s.size()+1);
+         
+       
         
-        return fun(0,s,dp)-1;
+        for(int i=n-1;i>=0;i--)
+        {
+            int min_cost = INT_MAX;
+             string temp = "";
+           for(int j=i;j<s.size();j++)
+           {
+                temp.push_back(s[j]);
+                if(isPal(temp))
+                {
+                    int cost = 1 +dp[j+1];
+                    min_cost = min(min_cost,cost); 
+                }
+           }
+            dp[i] = min_cost;
+        }
+        
+        return dp[0]-1;
     }
 };
