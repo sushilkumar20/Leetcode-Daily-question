@@ -6,7 +6,11 @@ public:
             return 1e9;
         
        
+        if(dp[i][j][k]!=-1)
+            return dp[i][j][k];
         
+        if(i==0&&j==0)
+            return dp[i][j][k] = 0;
         
          if(grid[i][j]==1)
          {
@@ -16,21 +20,21 @@ public:
                  k--;
          }
         
-         if(i==0&&j==0)
-            return dp[i][j][k] = 0;
+         
         
-         if(dp[i][j][k]!=-1)
-            return dp[i][j][k];
+         
         
         
         
          vis[i][j]=1;
+         int top = 1+help(i-1,j,k,grid,dp,vis);
+         int right = 1+ help(i,j-1,k,grid,dp,vis);
+        int down = 1+help(i+1,j,k,grid,dp,vis);
+        int left = 1+ help(i,j+1,k,grid,dp,vis);
+       
         
-         dp[i][j][k]= 1+min({help(i+1,j,k,grid,dp,vis),
-                                    help(i,j+1,k,grid,dp,vis),
-                                    help(i-1,j,k,grid,dp,vis),
-                                    help(i,j-1,k,grid,dp,vis)});
-        vis[i][j]=false;
+         dp[i][j][k]= min(left,min(down,min(top,right)));
+         vis[i][j]=false;
         
         return dp[i][j][k];
          
@@ -42,9 +46,9 @@ public:
         int m= grid[0].size();
         vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(m+1,vector<int>(k+1,-1)));
         vector<vector<bool>> visited(n+1,vector<bool>(m+1,false));
-        // int x = help(n-1,m-1,k,grid,dp,visited);
+        int x = help(n-1,m-1,k,grid,dp,visited);
         
-         int x = path( grid,  k,  n-1,  m-1, visited, dp);
+         // int x = path( grid,  k,  n-1,  m-1, visited, dp);
         
         if(x>n*m)
             return -1;
