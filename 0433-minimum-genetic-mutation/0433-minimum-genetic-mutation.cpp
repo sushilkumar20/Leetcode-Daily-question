@@ -1,38 +1,75 @@
 class Solution {
 public:
-    int minMutation(string start, string end, vector<string>& bank) {
-        queue<string> queue;
-        unordered_set<string> seen;
-        queue.push(start);
-        seen.insert(start);
+    int minMutation(string startGene, string endGene, vector<string>& bank) {
         
-        int steps = 0;
-        while (!queue.empty()) {
-            int nodesInQueue = queue.size();
-            
-            for (int j = 0; j < nodesInQueue; j++) {
-                string node = queue.front();
-                queue.pop();
-
-                if (node == end) {
-                    return steps;
+        map<string,vector<string>> mp;
+        
+        for(int i=0;i<bank.size();i++)
+        {
+            for(int j=0;j<bank.size();j++)
+            {
+                if(i==j)
+                    continue;
+                
+                int diff =0;
+                
+                for(int k=0;k<bank[i].size();k++)
+                {
+                    if(bank[i][k]!=bank[j][k])
+                        diff++;
                 }
                 
-                for (char c: "ACGT") {
-                    for (int i = 0; i < node.size(); i++) {
-                        string neighbor = node;
-                        neighbor[i] = c;
-                        if (!seen.count(neighbor) && find(bank.begin(), bank.end(), neighbor) != bank.end()) {
-                            queue.push(neighbor);
-                            seen.insert(neighbor);
-                        }
+                if(diff==1)
+                mp[bank[i]].push_back(bank[j]);
+            }
+            
+            int  diff=0;
+            for(int k=0;k<bank[i].size();k++)
+                {
+                    if(bank[i][k]!=startGene[k])
+                        diff++;
+                }
+                
+            if(diff==1)
+            mp[startGene].push_back(bank[i]);
+            
+            
+        }
+        
+        queue<string> q;
+        q.push(startGene);
+        
+        int level = 0;
+        
+        if(startGene==endGene)
+            return level;
+        map<string,int> vis;
+        vis[startGene]=1;
+        while(q.size())
+        {
+            level++;
+            int n = q.size();
+            for(int j=0;j<n;j++)
+            {
+                string par = q.front();
+                q.pop();
+
+
+                for(auto i:mp[par])
+                {
+                    if(i==endGene)
+                        return level;
+                    if(vis[i]==0){
+                        q.push(i);
+                        vis[i]=1;
                     }
                 }
             }
-            
-            steps++;
+
         }
         
         return -1;
+        
+        
     }
 };
