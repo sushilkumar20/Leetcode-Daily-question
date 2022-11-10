@@ -24,17 +24,20 @@ public:
     }
     int integerBreak(int n) {
         
-        vector<int> arr;
+        if(n<=2)
+            return 1;
         
+        if(n==3)
+            return 2;
         
-        for(int i=1;i<n;i++)
+        int prod = 1;
+        
+        while(n>4)
         {
-            arr.push_back(i);
+            prod*=3;
+            n-=3;
         }
-        
-        
-        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
-        return help(0,n,arr,dp);
-        
+        prod*=n;
+        return prod;
     }
 };
