@@ -44,8 +44,20 @@ public:
         
         int n = pairs.size();
         
-        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        vector<int> dp(n,1);
         
-        return help(0,-1,pairs,dp);
+        int mx =1;
+        for(int i=1;i<n;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(pairs[i][0]>pairs[j][1])
+                    dp[i] = max(dp[i],1+dp[j]);
+                
+                mx=max(mx,dp[i]);
+            }
+        }
+        
+        return mx;
     }
 };
