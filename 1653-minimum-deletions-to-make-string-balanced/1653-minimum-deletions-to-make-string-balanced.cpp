@@ -1,46 +1,64 @@
 class Solution {
 public:
-    
-    int lengthOfLIS(vector<int>& nums) {
-        
-        vector<int> temp;
-        
-        temp.push_back(nums[0]);
-        
-        for(int i=1;i<nums.size();i++)
-        {
-            if(temp.back()<=nums[i])
-            {
-                temp.push_back(nums[i]);
-            }
-            else
-            {
-                int ind = lower_bound(temp.begin(),temp.end(),nums[i]+1)-temp.begin();
-                
-                temp[ind] = nums[i];
-            }
-        }
-        
-        return temp.size();
-    }
-    
     int minimumDeletions(string s) {
         
         int n = s.size();
         
-        vector<int> arr(n);
+        if(n==1)
+            return 0;
         
-        for(int i =0;i<s.size();i++)
+        vector<int> pref(n);
+        
+        if(s[0]=='b')
+            pref[0]=1;
+        
+        for(int i=1;i<n;i++)
         {
-            if(s[i]=='a')
-                arr[i]=0;
+            if(s[i]=='b')
+                pref[i] = (1+pref[i-1]);
             else
-                arr[i]=1;
+                pref[i] = pref[i-1];
         }
         
-        int mx = lengthOfLIS(arr);
-        // cout<<mx<<endl;
+       
         
-        return s.size()-mx;
+        vector<int> suff(n);
+        
+        if(s[n-1] == 'a')
+        suff[n-1] = 1;
+        
+         for(int i=n-2;i>=0;i--)
+         {
+            if(s[i]=='a')
+                suff[i]=(1+suff[i+1]);
+            else
+                suff[i] = suff[i+1];
+         }
+        
+        
+        int mn = n;
+        
+        for(int i=0;i<n;i++)
+        {
+           
+            if(i==0)
+            {
+                mn=min(mn,suff[i+1]);
+            }
+            else if(i==n-1)
+            {
+                mn = min(mn,pref[i-1]);
+            }
+            else
+            {
+                mn=min(mn,pref[i-1]+suff[i+1]);
+            }
+            // cout<<mn<<endl;
+                
+        }
+        
+        return mn;
+        
+        
     }
 };
