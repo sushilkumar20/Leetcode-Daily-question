@@ -5,32 +5,64 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 	public:
+	 
+	 class node{
+	     public:
+	     char val;
+	     node *next;
+	     node *prv;
+	     
+	     node(char x)
+	     {
+	         val = x;
+	         next = nullptr;
+	         prv = nullptr;
+	     }
+	 };
 		string FirstNonRepeating(string A){
 		    // Code here
 		    
 		    int n = A.size();
+		    node *head = new node('#');
+		    node *tail = new node('#');
+		    
+		    head->next = tail;
+		    tail->prv = head;
+		    
+		    vector<int> freq(26,0);
+		    vector<node*> pDll(26,nullptr);
+		    
 		    string ans = "";
-		    
-		    queue<char> q;
-		    
-		    map<char,int> mp;
 		    
 		    for(int i=0;i<n;i++)
 		    {
-		        mp[A[i]]++;
-		        q.push(A[i]);
+		        freq[A[i]-'a']++;
 		        
-		        while(q.size()&&mp[q.front()]>1)
+		        if(freq[A[i]-'a']==1)
 		        {
-		            q.pop();
-		        }
-		        
-		        if(q.size())
-		        {
-		            ans+=q.front();
+		            node *tmp = new node(A[i]);
+		            
+		            tmp->next = tail;
+		            tmp->prv = tail->prv;
+		            tail->prv->next = tmp;
+		            tail->prv = tmp;
+		            
+		            pDll[A[i]-'a'] = tmp;
 		        }
 		        else
-		        ans += '#';
+		        {
+		            node *tmp = pDll[A[i]-'a'];
+		            
+		            pDll[A[i]-'a'] = nullptr;
+		            if(tmp)
+		            {
+		                tmp->next->prv = tmp->prv;
+		                tmp->prv->next = tmp->next;
+		                
+		            }
+		        }
+		        
+		        ans+=head->next->val;
 		    }
 		    
 		    return ans;
