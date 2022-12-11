@@ -1,53 +1,44 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
 
- // } Driver Code Ends
+// } Driver Code Ends
 class Solution {
   public:
     bool canPair(vector<int> nums, int k) {
         // Code here.
         
+        if(nums.size()%2)
+        return 0;
         map<int,int> mp;
         
         for(int i=0;i<nums.size();i++)
         mp[nums[i]%k]++;
         
+        // int cnt = 0;
+        
         for(auto i:mp)
         {
-            if(i.first==0)
+            int x = i.second;
+            int rem = k-i.first;
+            
+            if(k==rem)
             {
-                if(i.second%2)
-                return false;
+                if(x%2)
+                return 0;
             }
             else
             {
-                if(k%2==0)
-                {
-                    if(i.second==k/2)
-                    {
-                         if(i.second%2)
-                         return false;
-                    }
-                    else
-                    {
-                          if(i.second!=mp[k-i.first])
-                          return false;
-                    }
-                }
-                else
-                {
-                     if(i.second!=mp[k-i.first])
-                          return false;
-                }
+                if(x!=mp[rem])
+                return 0;
             }
         }
         
-        return true;
+        return 1;
     }
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 int main() {
     int tc;
     cin >> tc;
@@ -64,4 +55,5 @@ int main() {
             cout << "False\n";
     }
     return 0;
-}  // } Driver Code Ends
+}
+// } Driver Code Ends
