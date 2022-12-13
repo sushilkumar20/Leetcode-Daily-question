@@ -21,7 +21,7 @@ int main()
 int longestSubstrDistinctChars (string S)
 {
     // your code here
-    map<int,int> mp;
+    unordered_map<int,int> mp;
     
     int mx = 0;
     int lw = -1;
