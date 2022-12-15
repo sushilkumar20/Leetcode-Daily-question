@@ -7,24 +7,19 @@ class Solution
 {
 	public:
 	
-	    void help(int i, string &s, string &curr, set<string>&st, vector<int> &frq)
+	    void help(int i, string &s, set<string>&st)
 	    {
-	        if(curr.size()==s.size())
+	        if(i==s.size())
 	        {
-	            st.insert(curr);
+	            st.insert(s);
 	            return;
 	        }
 	        
-	        for(int j=0;j<s.size();j++)
+	        for(int j=i;j<s.size();j++)
 	        {
-	            if(frq[j]==0)
-	            {
-	                frq[j]=1;
-	                curr+=s[j];
-	                help(j,s,curr,st,frq);
-	                frq[j]=0;
-	                curr.pop_back();
-	            }
+	            swap(s[i],s[j]);
+	            help(i+1,s,st);
+	            swap(s[i],s[j]);
 	        }
 	    }
 		vector<string>find_permutation(string s)
@@ -32,17 +27,13 @@ class Solution
 		    // Code here there
 		    sort(s.begin(),s.end());
 		    
-		    string curr = "";
-		    
-		    int n = s.size();
-		    
-		    vector<int> frq(n);
-		    
 		    set<string> st;
 		    
-		    help(0,s,curr,st,frq);
+		   
+		    help(0,s,st);
 		    
 		    vector<string> ans;
+		    
 		    for(auto i = st.begin();i!=st.end();i++)
 		    ans.push_back(*i);
 		    
