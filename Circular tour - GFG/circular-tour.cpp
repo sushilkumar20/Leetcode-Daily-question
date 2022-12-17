@@ -27,25 +27,25 @@ class Solution{
     int tour(petrolPump p[],int n)
     {
        //Your code here
-       vector<long long> arr(n);
+    //   vector<long long> arr(n);
        
-       for(int i=0;i<n;i++)
-       {
+    //   for(int i=0;i<n;i++)
+    //   {
           
-           arr[i] = p[i].petrol-p[i].distance;
+    //       arr[i] = 
            
            
-       }
+    //   }
        
-       for(int i=0;i<n;i++)
-       arr.push_back(arr[i]);
+    //   for(int i=0;i<n;i++)
+    //   arr.push_back(arr[i]);
        
        int lw = -1;
        int sum=0;
        
        for(int i=0;i<2*n;i++)
        {
-           sum+=arr[i];
+           sum+=p[i%n].petrol-p[i%n].distance;
         //   cout<<sum<<endl;
            if(sum<0)
            {
