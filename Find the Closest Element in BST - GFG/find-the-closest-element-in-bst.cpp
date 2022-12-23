@@ -33,8 +33,14 @@ class Solution
 	    
 	    mn = min(mn,abs(root->data-k));
 	    
-	    dfs(root->left,mn,k);
+	    if(root->data == k)
+	    return;
+	    
+	    if(root->data<k)
 	    dfs(root->right,mn,k);
+	    else
+	    dfs(root->left,mn,k);
+	    
 	}
     int minDiff(Node *root, int K)
     {
