@@ -11,38 +11,25 @@ using namespace std;
 long long maxArea(long long arr[], int n)
 {
     // Your code goes here
-    long long ans =0;
-    
-    long long mx = 0;
-    for(int i=0;i<n;i++)
-    {
-        long long j=n-1;
-        
-        while(j>i)
-        {
-            if(arr[i]<=arr[j]){
-                mx=max(mx,arr[i]*(j-i));
-                break;
-            }
+   long long mx =0;
+   long long i =0;
+   long long j = n-1;
+   
+   while(i<j)
+   {
+       if(arr[i]<arr[j])
+       {
+           mx=max(mx,arr[i]*(j-i));
+           i++;
+       }
+       else
+       {
+            mx=max(mx,arr[j]*(j-i));
             j--;
-            
-        }
-        
-        j=0;
-        
-         while(j<i)
-        {
-            if(arr[i]<=arr[j]){
-                mx=max(mx,arr[i]*(i-j));
-                break;
-            }
-            j++;
-        }
-        
-        
-    }
-    
-    return mx;
+       }
+   }
+   
+   return mx;
 }
 
 //{ Driver Code Starts.
