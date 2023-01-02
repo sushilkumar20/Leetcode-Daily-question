@@ -103,55 +103,70 @@ class Solution
     public:
     //Function to return a list of integers denoting the node 
     //values of both the BST in a sorted order.
-    void inorder(Node *root, vector<int> &arr)
-    {
-        if(root==nullptr)
-        return;
-        
-        inorder(root->left,arr);
-        arr.push_back(root->data);
-        inorder(root->right,arr);
-    }
     vector<int> merge(Node *root1, Node *root2)
     {
        //Your code here
-       vector<int> ans;
+       stack<Node*> st1;
+       stack<Node*> st2;
        
-       inorder(root1,ans);
-       vector<int> arr;
-       inorder(root2,arr);
+       while(root1!=nullptr)
+       {
+           st1.push(root1);
+           root1=root1->left;
+       }
        
-       vector<int> res;
+        while(root2!=nullptr)
+       {
+           st2.push(root2);
+           root2=root2->left;
+       }
        
-       int i=0;
-       int j=0;
+       vector<int> mergedList;
        
-      while(i<ans.size()&&j<arr.size())
-      {
-          if(ans[i]<arr[j])
-          {
-              res.push_back(ans[i]);
-              i++;
-          }
-          else
-          {
-              res.push_back(arr[j]);
-              j++;
-          }
-      }
+       while(st1.size()&&st2.size())
+       {
+           if(st1.top()->data<=st2.top()->data)
+           {
+               Node *tmp = st1.top();
+               mergedList.push_back(st1.top()->data);
+               st1.pop();
+               inorderSuccessor(tmp->right,st1);
+           }
+           else
+           {
+               Node *tmp = st2.top();
+                mergedList.push_back(st2.top()->data);
+               st2.pop();
+               inorderSuccessor(tmp->right,st2);
+           }
+       }
        
-      while(i<ans.size())
-      {
-          res.push_back(ans[i]);
-          i++;
-      }
+       while(st1.size())
+       {
+           Node *tmp = st1.top();
+           mergedList.push_back(st1.top()->data);
+           st1.pop();
+           inorderSuccessor(tmp->right,st1);
+       }
        
-      while(j<arr.size())
-      {
-          res.push_back(arr[j]);
-          j++;
-      }
-       return res;
+        while(st2.size())
+       {
+           Node *tmp = st2.top();
+           mergedList.push_back(st2.top()->data);
+           st2.pop();
+           inorderSuccessor(tmp->right,st2);
+       }
+       
+       return mergedList;
+    }
+    
+    void inorderSuccessor(Node *root,stack<Node*> &st)
+    {
+       while(root)
+       {
+           st.push(root);
+           root=root->left;
+       }
     }
 };
 
