@@ -11,7 +11,6 @@ class Solution
   int maxWeightCell(int N, vector<int> edges)
   {
       // code here
-      
       map<int,int> mp;
       
       for(int i=0;i<N;i++)
