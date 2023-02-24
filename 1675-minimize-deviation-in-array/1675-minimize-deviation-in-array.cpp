@@ -1,45 +1,54 @@
 class Solution {
 public:
     int minimumDeviation(vector<int>& nums) {
+       
+       priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
         
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+       
+        int n = nums.size();
         
-        int mx=0;
-        for(int i=0;i<nums.size();i++)
+        int mx = 0;
+        for(int i=0;i<n;i++)
         {
-            int k=nums[i];
+            int k = nums[i];
             
             while(k%2==0)
             {
                 k=k/2;
             }
             
-            if(nums[i]%2==0)
-            pq.push({k,nums[i]});
+           if(nums[i]%2)
+           {
+               pq.push({nums[i],2*nums[i]});
+           }
             else
-                pq.push({k,2*nums[i]});
+            {
+                pq.push({k,nums[i]});
+            }
             
-            mx=max(mx,k);
+            mx = max(mx,k);
         }
         
-        int ans=INT_MAX;;
+        int ans = INT_MAX;
         
         while(1)
         {
-            auto it=pq.top();
+            auto y = pq.top();
             pq.pop();
             
-            ans=min(ans,mx-it.first);
+            // cout<<mx-y[0]<<endl;
+            ans = min(ans,mx-y.first);
             
-            if(it.first==it.second)
+            if(y.first == y.second)
                 break;
             
-            mx=max(mx,2*it.first);
+            mx = max(mx,2*y.first);
             
-            pq.push({it.first*2,it.second});
+            pq.push({2*y.first,y.second});
         }
         
         return ans;
+        
         
     }
 };
