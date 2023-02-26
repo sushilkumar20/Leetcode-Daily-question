@@ -1,40 +1,50 @@
 class Solution {
 public:
     
-    int help(int i, int k, vector<int> &nums, vector<vector<int>> &dp)
+    bool pos(int sm, int k, vector<int> &nums)
     {
-        if(nums.size()-i<k)
-            return 1e9;
-        
-        if(k==1)
-        {
-            int sum=0;
-            
-            for(int j=i;j<nums.size();j++)
-                sum+=nums[j];
-            
-            return sum;
-        }
-        
-        if(dp[i][k]!=-1)
-            return dp[i][k];
-        
+        int cnt=1;
         int curr=0;
         
-        int mx = 1e9;
-        for(int j=i;j<nums.size();j++)
-        {
-            curr+=nums[j];
-            
-            mx = min(mx,max(curr,help(j+1,k-1,nums,dp)));
+        for(int i=0;i<nums.size();i++)
+        {   
+            if(nums[i]>sm)
+                return 0;
+            if(curr+nums[i]>sm)
+            {
+                cnt++;
+                curr=nums[i];
+            }
+            else
+                curr+=nums[i];
         }
         
-        return dp[i][k]=mx;
+        if(cnt>k)
+            return 0;
+        
+        return 1;
     }
     int splitArray(vector<int>& nums, int k) {
         
+        int lw = 0;
+        int hg = 1e9;
         
-        vector<vector<int>> dp(nums.size(),vector<int>(k+1,-1));
-        return help(0,k,nums,dp);
+        int ans = hg;
+        while(lw<=hg)
+        {
+            int mid = (lw+hg)/2;
+            
+            if(pos(mid,k,nums))
+            {
+                ans=min(ans,mid);
+                hg=mid-1;
+            }
+            else
+            {
+                lw = mid+1;
+            }
+        }
+        
+        return ans;
     }
 };
