@@ -2,70 +2,72 @@ class Solution {
 public:
     int minJumps(vector<int>& arr) {
         
-        int n=arr.size();
-        vector<int> edge[n];
-        
-        if(arr.size()==1)
-            return 0;
-     
-        
+        int n = arr.size();
         map<int,vector<int>> mp;
         
-        for(int i=0;i<arr.size();i++)
+        for(int i=0;i<n;i++)
         {
             mp[arr[i]].push_back(i);
+            
         }
         
-        int step=0;
+        vector<int> vis(n);
         
-        queue<int>q;
+        queue<int> q;
+        
         q.push(0);
-        
-        while(q.size()>0)
+        if(n-1==0)
+            return 0;
+        vis[0]=1;
+        int tm = 1;
+        while(q.size())
         {
-            step++;
-            int p=q.size();
+            int sz = q.size();
             
-            for(int i=0;i<p;i++)
+            for(int i=0;i<sz;i++)
             {
-                int j=q.front();
+                int x = q.front();
+                
+              
                 q.pop();
                 
-                if(j-1>=0&&mp.find(arr[j-1])!=mp.end())
+                if(x-1>=0&&vis[x-1]==0)
                 {
-                    q.push(j-1);
+                    if(x-1  == n-1)
+                        return tm;
+                    
+                    vis[x-1]=1;
+                   q.push(x-1);
                 }
-                 if(j+1<n&&mp.find(arr[j+1])!=mp.end())
+                
+                 if(x+1<n&&vis[x+1]==0)
                 {
-                    if(j+1==n-1)
-                        return step;
-                    q.push(j+1);
+                     if(x+1  == n-1)
+                        return tm;
+                     vis[x+1]=1;
+                    q.push(x+1);
                 }
-               
-                    if(mp.find(arr[j])!=mp.end())
+                
+                for(auto j:mp[arr[x]])
+                {
+                    if(i!=j)
                     {
-                        for(auto k:mp[arr[j]])
+                        if(vis[j]==0)
                         {
-                            if(k!=j)
-                            {
-                                if(k==n-1)
-                                {
-                                    return step;
-                                }
-                                q.push(k);
-                            }
+                            if(j  == n-1)
+                            return tm;
+                            vis[j]=1;
+                            q.push(j);
                         }
                     }
+                }
                 
-                if(mp.find(arr[j])!=mp.end())
-                mp.erase(arr[j]);
-                
+                 mp.erase(arr[x]);
             }
+            
+            tm++;
         }
         
-        return step;
-        
-        
-        
+        return -1;
     }
 };
