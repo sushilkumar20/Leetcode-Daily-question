@@ -11,9 +11,13 @@ class Solution {
         
        vector<int> ans;
        unordered_map<int,int> mp;
-           
-           for(int i=0;i<A.size();i++)
-           mp[A[i]]++;
+        vector<int> eachFreq(N);
+        
+        for(int i=N-1;i>=0;i--)
+        {
+            mp[A[i]]++;
+            eachFreq[i] =mp[A[i]];
+        }
            
        for(int i=0;i<Q.size();i++)
        {
@@ -23,29 +27,10 @@ class Solution {
            
            int cnt = 0;
            
-           for(int j=0;j<l;j++)
-           {
-               mp[A[j]]--;
-           }
-           
            for(int j=l;j<=r;j++)
            {
-               if(mp[A[j]]==k)
-               {
-                   cnt++;
-               }
-               mp[A[j]]--;
-           }
-           
-           for(int j=0;j<l;j++)
-           {
-               mp[A[j]]++;
-           }
-           
-            for(int j=l;j<=r;j++)
-           {
-              
-               mp[A[j]]++;
+               if(eachFreq[j]==k)
+               cnt++;
            }
            
            ans.push_back(cnt);
