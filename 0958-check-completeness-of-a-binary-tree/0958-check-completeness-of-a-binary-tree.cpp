@@ -13,70 +13,30 @@ class Solution {
 public:
     bool isCompleteTree(TreeNode* root) {
         
+        
         if(root==nullptr)
-            return 1;
+            return 0;
+        bool nullNodeFound = 0;
+        
         queue<TreeNode*> q;
         
         q.push(root);
         
-        // arr.push_back(root->val);
-        bool ok1=0;
         while(q.size())
         {
+            TreeNode *node = q.front();
+            q.pop();
             
-            int z = q.size();
-            
-            int cnt = 0;
-            
-            bool ok=0;
-            for(int i=0;i<z;i++)
-            {
-                 auto frt = q.front();
-                q.pop();
-                
-                if(frt->left)   
-                {
-                    if(ok)
-                        return 0;
-                    cnt++;
-                    q.push(frt->left);
-                }
-                else
-                    ok=1;
-                
-                if(frt->right)   
-                {
-                    if(ok)
-                        return 0;
-                    cnt++;
-                    q.push(frt->right);
-                }
-                else
-                    ok=1;
-            }
-            
-           if(ok1&&q.size())
-                   return 0;
-            
-            if(ok)
-            {
-               if(ok1&&q.size())
-                   return 0;
-                
-                if(q.size())
-                {
-                    ok1=1;
-                }
-            }
+            if(node == nullptr)
+                nullNodeFound = 1;
             else
             {
-                
-                if(cnt!=2*z){
-                    // cout<<z<<" "<<cnt<<endl;
+                if(nullNodeFound )
                     return 0;
-                }
+                
+                q.push(node->left);
+                q.push(node->right);
             }
-            
         }
         
         return 1;
